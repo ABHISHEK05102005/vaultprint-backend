@@ -1,17 +1,16 @@
-// 1. Load environment variables
 require('dotenv').config();
-
-// 2. Import your Express app logic
 const app = require('./serverApp'); 
 
-// 3. ADD YOUR ROUTES HERE
-// This tells the server: "When someone visits the home page, show this message."
+// Root route to prevent 404
 app.get('/', (req, res) => {
-    res.send("Server is active and online!");
+    res.status(200).json({
+        message: "Server is active!",
+        status: "success",
+        timestamp: new Date().toISOString()
+    });
 });
 
-// 4. Local Development Listener
-// (This code only runs when you are working on your own computer)
+// Local Development
 if (process.env.NODE_ENV !== 'production') {
     const PORT = process.env.PORT || 3000;
     app.listen(PORT, () => {
@@ -19,5 +18,5 @@ if (process.env.NODE_ENV !== 'production') {
     });
 }
 
-// 5. Crucial: Export the app for Vercel
+// Export for Vercel
 module.exports = app;
