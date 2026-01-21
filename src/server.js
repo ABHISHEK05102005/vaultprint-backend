@@ -11,6 +11,6 @@ if (process.env.NODE_ENV !== 'production') {
         console.log(`Server running locally on port ${PORT}`);
     });
 }
-
+app.get('/', (req, res) => res.send('Server is active!'));
 // Crucial: Export the app for Vercel
 module.exports = app;
