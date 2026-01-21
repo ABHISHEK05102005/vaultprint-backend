@@ -6,7 +6,6 @@ const otpService = require('../services/otpService');
 exports.handleUpload = async (req, res, next) => {
   try {
     const kioskId = req.params.kioskId || req.body.kioskId;
-    const customization = req.body; // pages, color, etc.
 
     if (!kioskId) {
       return res.status(400).json({ error: 'kioskId is required' });
@@ -16,12 +15,19 @@ exports.handleUpload = async (req, res, next) => {
       return res.status(400).json({ error: 'PDF file is required' });
     }
 
-    // Generate OTP and target filename
+    let customization = {};
+    if (req.body.settings) {
+      try {
+        customization = JSON.parse(req.body.settings);
+      } catch {
+        return res.status(400).json({ error: 'Invalid settings JSON' });
+      }
+    }
+
     const otp = otpService.generateOtp();
     const ext = path.extname(req.file.originalname) || '.pdf';
     const storedFileName = `${kioskId}_${otp}${ext}`;
 
-    // Save file and metadata under kiosk folder
     await storageService.saveKioskJob({
       kioskId,
       fileBuffer: req.file.buffer,
@@ -30,7 +36,6 @@ exports.handleUpload = async (req, res, next) => {
       otp
     });
 
-    // Return OTP so client can display it immediately after upload (per your request)
     res.status(201).json({
       message: 'Upload successful, awaiting payment',
       kioskId,
@@ -41,4 +46,5 @@ exports.handleUpload = async (req, res, next) => {
     next(err);
   }
 };
+
 

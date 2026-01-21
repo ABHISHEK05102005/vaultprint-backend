@@ -1,0 +1,15 @@
+[
+  {
+    "kioskId": "KIOSK_001",
+    "otp": "171485",
+    "fileName": "KIOSK_001_171485.png",
+    "filePath": "C:\\Users\\abhis\\Desktop\\database\\kiosks\\KIOSK_001\\KIOSK_001_171485.png",
+    "customization": {
+      "copies": 1,
+      "pageSelection": "all",
+      "colorMode": "bw",
+      "paperSize": "A4"
+    },
+    "createdAt": "2026-01-21T08:00:04.220Z"
+  }
+]
