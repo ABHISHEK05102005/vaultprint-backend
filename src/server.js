@@ -1,10 +1,16 @@
-// Load environment variables from .env file
+// Load environment variables
 require('dotenv').config();
 
-const app = require('./serverApp');
-const PORT = process.env.PORT || 3000;
+// Import your Express app logic
+const app = require('./serverApp'); 
 
-app.listen(PORT, () => {
-  console.log(`Kiosk print backend running on port ${PORT}`);
-});
+// Only start the server locally (Vercel ignores this block)
+if (process.env.NODE_ENV !== 'production') {
+    const PORT = process.env.PORT || 3000;
+    app.listen(PORT, () => {
+        console.log(`Server running locally on port ${PORT}`);
+    });
+}
 
+// Crucial: Export the app for Vercel
+module.exports = app;
